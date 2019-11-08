@@ -94,5 +94,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Schoenwinkel.lib\Schoenwinkel.lib.csproj">
+      <Project>{e70a742d-4ec5-4609-99a7-3b4c68bfad49}</Project>
+      <Name>Schoenwinkel.lib</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
