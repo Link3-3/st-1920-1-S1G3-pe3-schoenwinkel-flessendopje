@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Schoenwinkel.Wpf"
         mc:Ignorable="d"
-        Title="De schoenwinkel" Height="681" Width="1178">
+        Title="De schoenwinkel" Height="681" Width="1178" Loaded="wdwMainWindow_Loaded">
     <Grid Background="White">
         <Label Content="Schoenwinkel: Sole Mates" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="1150" FontWeight="Bold" HorizontalContentAlignment="Center" Background="#FF47C7F4" Foreground="White" FontSize="18"/>
         <GroupBox Header="Voeg nieuwe klant toe" HorizontalAlignment="Left" Height="201" Margin="15,61,0,0" VerticalAlignment="Top" Width="240">
@@ -34,18 +34,18 @@
                 <Label Content="Geslacht:" HorizontalAlignment="Left" Margin="12,87,0,0" VerticalAlignment="Top"/>
                 <Label Content="Schoenmaat:" HorizontalAlignment="Left" Margin="12,113,0,0" VerticalAlignment="Top"/>
                 <Label x:Name="lblSchoenmaat" Content="-" HorizontalAlignment="Left" Height="26" Margin="100,113,0,0" VerticalAlignment="Top" Width="250"/>
-                <Button x:Name="btnVerwijderKlant" Content="Verwijder deze klant" HorizontalAlignment="Left" Margin="49,510,0,0" VerticalAlignment="Top" Width="265" Background="Red" Foreground="White" BorderBrush="Black" Height="37" FontWeight="Bold" FontSize="14"/>
+                <Button x:Name="btnVerwijderKlant" Content="Verwijder deze klant" HorizontalAlignment="Left" Margin="49,510,0,0" VerticalAlignment="Top" Width="265" Background="Red" Foreground="White" BorderBrush="Black" Height="37" FontWeight="Bold" FontSize="14" Click="btnVerwijderKlant_Click"/>
                 <GroupBox Header="Wijzig schoenmaat" HorizontalAlignment="Left" Height="127" Margin="49,200,0,0" VerticalAlignment="Top" Width="265">
                     <Grid >
                         <Label Content="Nieuwe maat:" HorizontalAlignment="Left" Margin="0,7,0,0" VerticalAlignment="Top"/>
                         <TextBox x:Name="txtNieuweSchoenmaat" HorizontalAlignment="Left" Height="23" Margin="94,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="151"/>
-                        <Button x:Name="btnWijzigSchoenmaat" Content="Wijzig schoenmaat" HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Width="235" Height="35"/>
+                        <Button x:Name="btnWijzigSchoenmaat" Content="Wijzig schoenmaat" HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Width="235" Height="35" Click="btnWijzigSchoenmaat_Click"/>
                     </Grid>
                 </GroupBox>
                 <GroupBox Header="Registreer aankoop" HorizontalAlignment="Left" Height="164" Margin="49,332,0,0" VerticalAlignment="Top" Width="265">
                     <Grid>
                         <Label Content="Schoenmerk:" HorizontalAlignment="Left" Margin="10,7,0,0" VerticalAlignment="Top"/>
-                        <Button x:Name="btnVerkoopSchoen" Content="Verkoop schoenen" HorizontalAlignment="Left" Margin="10,97,0,0" VerticalAlignment="Top" Width="233" Height="35"/>
+                        <Button x:Name="btnVerkoopSchoen" Content="Verkoop schoenen" HorizontalAlignment="Left" Margin="10,97,0,0" VerticalAlignment="Top" Width="233" Height="35" Click="btnVerkoopSchoen_Click"/>
                         <ComboBox x:Name="cmbSchoenMerk" HorizontalAlignment="Left" Margin="93,11,0,0" VerticalAlignment="Top" Width="150"/>
                         <Label Content="Schoenkleur:" HorizontalAlignment="Left" Margin="10,34,0,0" VerticalAlignment="Top"/>
                         <ComboBox x:Name="cmbSchoenKleur" HorizontalAlignment="Left" Margin="93,38,0,0" VerticalAlignment="Top" Width="150"/>
@@ -68,7 +68,7 @@
             </Grid>
         </GroupBox>
         <Label Content="Klantenlijst:" HorizontalAlignment="Left" Margin="273,57,0,0" VerticalAlignment="Top"/>
-        <ListBox x:Name="lstKlantenlijst" HorizontalAlignment="Left" Height="174" Margin="273,88,0,0" VerticalAlignment="Top" Width="186"/>
+        <ListBox x:Name="lstKlantenlijst" HorizontalAlignment="Left" Height="174" Margin="273,88,0,0" VerticalAlignment="Top" Width="186" SelectionChanged="lstKlantenlijst_SelectionChanged"/>
         <GroupBox Header="Statistieken winkel" HorizontalAlignment="Left" Height="362" Margin="15,278,0,0" VerticalAlignment="Top" Width="444">
             <Grid>
                 <Label Content="Aantal verkochte schoenen:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>

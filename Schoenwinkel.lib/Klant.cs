@@ -13,21 +13,21 @@ namespace Schoenwinkel.lib
         private string achternaam;
         private int schoenmaat;
         private string guID;
-        
+
         private Geslachten geslacht;
 
         public Geslachten Geslacht
         {
-            get 
-            { 
-                return geslacht; 
+            get
+            {
+                return geslacht;
             }
-            set 
+            set
             {
                 if (value == Geslachten.Undefined)
                     throw new Exception("Kies een geslacht!");
                 else
-                    geslacht = value; 
+                    geslacht = value;
             }
         }
 
@@ -61,7 +61,7 @@ namespace Schoenwinkel.lib
             }
         }
 
-        public int Schoenmaat 
+        public int Schoenmaat
         {
             get
             {
@@ -69,7 +69,7 @@ namespace Schoenwinkel.lib
             }
             set
             {
-                if (value >= 10 && value < 50) //kleinste schoenmaat is 10, grootste is 50
+                if (value >= 10 && value <= 50) //kleinste schoenmaat is 10, grootste is 50
                     schoenmaat = value;
                 else
                     throw new Exception("De ingegeven schoenmaat moet tussen 10 en 50 zijn");
@@ -84,14 +84,37 @@ namespace Schoenwinkel.lib
             }
         }
 
-        public void NieuweKlant(string klantVoornaam, string klantAchternaam, Geslachten klantGeslacht, int klantSchoenmaat )
+        public void NieuweKlant(string klantVoornaam, string klantAchternaam, Geslachten klantGeslacht, string klantSchoenmaat)
         {
             //genereer nieuwe UserID
             guID = Guid.NewGuid().ToString(); //bewust gekozen voor geen guid set omdat we niet willen dat iemand dit handmatig aanmaakt.
             Voornaam = klantVoornaam;
             Achternaam = klantAchternaam;
             Geslacht = klantGeslacht;
-            Schoenmaat = klantSchoenmaat;
+            Schoenmaat = ParseSchoenmaat(klantSchoenmaat);
+        }
+
+        public void BewerkSchoenmaat(string nieuweSchoenmaat)
+        {
+            Schoenmaat = ParseSchoenmaat(nieuweSchoenmaat);
+        }
+
+        private int ParseSchoenmaat(string schoenmaat)
+        {
+            bool schoenmaatCorrect = int.TryParse(schoenmaat, out int tempSchoenmaat);
+            if (schoenmaatCorrect)
+            { 
+                return tempSchoenmaat;
+            }
+            else
+            { 
+                throw new Exception("De ingegeven schoenmaat moet numeriek zijn!");
+            }
+        }
+
+        public void DeleteKlant()
+        {
+
         }
     }
 }
