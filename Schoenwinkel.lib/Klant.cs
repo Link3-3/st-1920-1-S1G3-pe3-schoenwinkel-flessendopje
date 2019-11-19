@@ -84,7 +84,7 @@ namespace Schoenwinkel.lib
             }
         }
 
-        public void NieuweKlant(string klantVoornaam, string klantAchternaam, Geslachten klantGeslacht, string klantSchoenmaat)
+        public Klant(string klantVoornaam, string klantAchternaam, Geslachten klantGeslacht, string klantSchoenmaat)
         {
             //genereer nieuwe UserID
             guID = Guid.NewGuid().ToString(); //bewust gekozen voor geen guid set omdat we niet willen dat iemand dit handmatig aanmaakt.
@@ -100,7 +100,7 @@ namespace Schoenwinkel.lib
         }
 
         private int ParseSchoenmaat(string schoenmaat)
-        {
+        { //stuk toevoegen waarin een leeg veld niet voor een numerieke fout zorgt
             bool schoenmaatCorrect = int.TryParse(schoenmaat, out int tempSchoenmaat);
             if (schoenmaatCorrect)
             { 
@@ -110,11 +110,6 @@ namespace Schoenwinkel.lib
             { 
                 throw new Exception("De ingegeven schoenmaat moet numeriek zijn!");
             }
-        }
-
-        public void DeleteKlant()
-        {
-
         }
     }
 }

@@ -8,11 +8,11 @@ namespace Schoenwinkel.lib
 {
     public class Aankoop
     {
-        private int prijs;
+        private decimal prijs;
         private string merk;
         private string kleur;
         private string guID;
-        public int Prijs 
+        public decimal Prijs 
         {
             get
             {
@@ -74,9 +74,10 @@ namespace Schoenwinkel.lib
             }
         }
 
-        private int ParsePrijs(string prijs)
+        private decimal ParsePrijs(string prijs)
         {
-            bool prijsCorrect = int.TryParse(prijs, out int tempPrijs);
+            prijs = prijs.Replace('.', ','); //zal een punt-komma omzetten naar een decimale komma
+            bool prijsCorrect = decimal.TryParse(prijs, out decimal tempPrijs);
             if (prijsCorrect)
             {
                 return tempPrijs;
@@ -87,7 +88,7 @@ namespace Schoenwinkel.lib
             }
         }
 
-        public void VerkoopSchoenen(string klantGuID, string schoenMerk, string schoenKleur, string schoenPrijs)
+        public Aankoop(string klantGuID, string schoenMerk, string schoenKleur, string schoenPrijs)
         {
             GuID = klantGuID; //houd bij welke klant dit item kocht
             Merk = schoenMerk;

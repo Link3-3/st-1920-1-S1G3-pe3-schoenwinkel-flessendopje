@@ -33,14 +33,11 @@ namespace Schoenwinkel.Wpf
 
         void StartUp() //testen met vooringevulde correcte waarden zodat we niet duizend keer een nieuwe klant moeten invoegen.
         {
-            Klant klant1 = new Klant();
-            klant1.NieuweKlant("Tim", "De Gieter", Geslachten.Man, "45");
+            Klant klant1 = new Klant("Tim", "De Gieter", Geslachten.Man, "45");
             klanten.Add(klant1);
-            Klant klant2 = new Klant();
-            klant2.NieuweKlant("Pieter", "Peters", Geslachten.Man, "22");
+            Klant klant2 = new Klant("Pieter", "Peters", Geslachten.Man, "22");
             klanten.Add(klant2);
-            Klant klant3 = new Klant();
-            klant3.NieuweKlant("Lara", "Liers", Geslachten.Vrouw, "38");
+            Klant klant3 = new Klant("Lara", "Liers", Geslachten.Vrouw, "38");
             klanten.Add(klant3);
 
             cmbSchoenKleur.Items.Add("Rood");
@@ -57,8 +54,8 @@ namespace Schoenwinkel.Wpf
 
         private void btnVoegKlantToe_Click(object sender, RoutedEventArgs e) //voeg klant toe
         {
+            Klant klant;
             lstKlantenlijst.SelectedIndex = -1;
-            Klant klant = new Klant();
             string voornaam = txtVoornaam.Text.ToString();
             string achternaam = txtFamilienaam.Text.ToString();
             string schoenmaat = txtSchoenmaat.Text.ToString();
@@ -78,15 +75,22 @@ namespace Schoenwinkel.Wpf
 
             try
             {
-                klant.NieuweKlant(voornaam, achternaam, geslacht, schoenmaat);
+                klant = new Klant(voornaam, achternaam, geslacht, schoenmaat);
             }
             catch (Exception exception)
             {
                 MessageBox.Show(exception.Message, "Fout!", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
+            finally
+            {
+                FillKlantenListBox();
+                ClearCostumerLabels();
+                ClearCostumerStatistics();
+            }
             klanten.Add(klant); //wordt niet meer uitgevoerd indien fout doordat er een return in de catch zit
-            FillKlantenListBox();
+            lstKlantenlijst.SelectedIndex = lstKlantenlijst.Items.Count - 1; //poogt om de nieuwe toegevoegde klant direct te selecteren
+
         }
 
         void FillKlantenListBox() //vult de klanten listbox met klanten uit de lijst klanten. eventueel alphabetisch maken?
@@ -107,6 +111,48 @@ namespace Schoenwinkel.Wpf
             lblGeslacht.Content = "-";
             txtNieuweSchoenmaat.Text = "";
         }
+
+        void ClearCostumerStatistics()
+        {
+            lblAantalGekochteSchoenen.Content = "-";
+            lblPrijsGekochteSchoenen.Content = "-";
+            lstGekochteSchoenen.Items.Clear();
+        }
+
+        void UpdateCostumerStatistics()
+        {
+            lstGekochteSchoenen.Items.Clear();
+            //find number of articles the client has bought & show price of total items bought
+            int index = lstKlantenlijst.SelectedIndex;
+            if (index == -1)
+                return;
+            Klant geselecteerdeKlant = klanten[index];
+            string guID = geselecteerdeKlant.GuID;
+
+            int numberOfItemsBought = 0;
+            decimal priceOfItemsBought = 0;
+            foreach(Aankoop artikel in aankopen)
+            {
+                if (artikel.GuID == guID)
+                {
+                    numberOfItemsBought++;
+                    priceOfItemsBought += artikel.Prijs;
+                    lstGekochteSchoenen.Items.Add($"{artikel.Merk} - {artikel.Kleur} - €{artikel.Prijs}");
+                }
+            }
+            lblAantalGekochteSchoenen.Content = numberOfItemsBought.ToString();
+            lblPrijsGekochteSchoenen.Content = "€" + priceOfItemsBought.ToString();
+            
+            
+
+            //show a list of all the bought shoes from the selected client (merk - kleur - prijs)
+        }
+
+        void UpdateStoreStatistics()
+        {
+
+        }
+
         private void lstKlantenlijst_SelectionChanged(object sender, SelectionChangedEventArgs e) //vult de labels met de geselecteerde klant.
         {
             int index = lstKlantenlijst.SelectedIndex;
@@ -123,6 +169,7 @@ namespace Schoenwinkel.Wpf
             cmbSchoenKleur.SelectedIndex = -1;
             cmbSchoenMerk.SelectedIndex = -1;
             txtSchoenPrijs.Text = "";
+            UpdateCostumerStatistics();
         }
 
         private void btnWijzigSchoenmaat_Click(object sender, RoutedEventArgs e) //schoenmaat van een al bestaande klant wijzigen
@@ -135,7 +182,7 @@ namespace Schoenwinkel.Wpf
                 {
                     geselecteerdeKlant.BewerkSchoenmaat(txtNieuweSchoenmaat.Text);
                     lblSchoenmaat.Content = geselecteerdeKlant.Schoenmaat;
-                    MessageBox.Show($"De schoenmaat van {geselecteerdeKlant.Voornaam} {geselecteerdeKlant.Achternaam} is nu {geselecteerdeKlant.Schoenmaat}.", "Schoenmaat gewijzigd",MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show($"De schoenmaat van {geselecteerdeKlant.Voornaam} {geselecteerdeKlant.Achternaam} is nu {geselecteerdeKlant.Schoenmaat}.", "Schoenmaat gewijzigd", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 catch (Exception exception)
                 {
@@ -157,14 +204,14 @@ namespace Schoenwinkel.Wpf
             }
             else
             {
-                Aankoop aankoop = new Aankoop();
+                Aankoop aankoop;
                 string guID = lblId.Content.ToString(); //link client to sale
                 string merk = cmbSchoenMerk.Text;
                 string kleur = cmbSchoenKleur.Text;
                 string prijs = txtSchoenPrijs.Text;
                 try
                 {
-                    aankoop.VerkoopSchoenen(guID, merk, kleur, prijs);
+                    aankoop = new Aankoop(guID, merk, kleur, prijs);
                 }
                 catch (Exception exception)
                 {
@@ -172,23 +219,40 @@ namespace Schoenwinkel.Wpf
                     return;
                 }
                 aankopen.Add(aankoop);
+                UpdateCostumerStatistics();
                 //MessageBox.Show(aankoop.GuID + aankoop.Kleur + aankoop.Merk + aankoop.Prijs); //debug
             }
         }
 
+
+
         private void btnVerwijderKlant_Click(object sender, RoutedEventArgs e)
         {
+            //bij het verwijderen van deze klant zullen ook de aangekochte schoenen verwijderd worden
+
             //messagebox om te vragen of je effectief de klant wil deleten?
             //verwijdert de klant uit lijst klanten en verwijdert zijn/haar aankopen uit lijst aankopen
             int index = lstKlantenlijst.SelectedIndex;
+            if (index == -1)
+            {
+                MessageBox.Show("Selecteer eerst een klant om te verwijderen", "Fout!", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
             Klant verwijderKlant = klanten[index];
             string guID = verwijderKlant.GuID;
+            string voornaam = verwijderKlant.Voornaam;
+            string achternaam = verwijderKlant.Achternaam;
             List<int> teDeletenLocaties = new List<int>();
+
+            if(MessageBox.Show($"Wilt u {achternaam} {voornaam} permanent verwijderen?" + Environment.NewLine + "Alsook de door deze klant aangekochte schoenen zullen verwijderd worden.", "Bevestig verwijdering klant", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.No)
+            {
+                return; //bij het induwen van de NO knop zal de methode hier afgebroken worden
+            }
+
             if (aankopen.Count != 0)
             {
                 for (int i = 0; i >= aankopen.Count; i++) //zoekt alle aankopen door de gebruiker
                 {
-
                     Aankoop aankoop = aankopen[i];
                     if (aankoop.GuID == guID)
                     {
@@ -206,6 +270,7 @@ namespace Schoenwinkel.Wpf
             klanten.RemoveAt(index);
             FillKlantenListBox();
             ClearCostumerLabels();
+            ClearCostumerStatistics();
         }
     }
 }
