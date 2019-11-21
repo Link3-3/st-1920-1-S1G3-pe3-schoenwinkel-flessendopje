@@ -6,38 +6,65 @@ using System.Threading.Tasks;
 
 namespace Schoenwinkel.lib
 {
-    class Winkel
+    public class Winkel
     {
-        //will contain all bought items and their respective clients
-        //methods for statistics in here?
-
-        //kan ik hier de gegevens uit Klant en Aankoop halen?
-
-        private string guID; //is dit echt nodig?
-        private string voornaam;
-        private string achternaam;
-        private string merk;
-        private string kleur;
-        private int prijs;
-
-        public string GuID //is dit echt nodig?
+        public int GrootsteSchoenmaat(List<Klant> klanten)
         {
-            get
+            int grootsteSchoenmaat = 0;
+            foreach(Klant klant in klanten)
             {
-                return "";
+                if(klant.Schoenmaat > grootsteSchoenmaat)
+                {
+                    grootsteSchoenmaat = klant.Schoenmaat;
+                }
             }
+            return grootsteSchoenmaat;
         }
 
-        public string voorNaam 
+        public int KleinsteSchoenmaat(List<Klant> klanten)
         {
-            get
+            int kleinsteSchoenmaat = 100;
+            foreach (Klant klant in klanten)
             {
-                return "";
+                if (klant.Schoenmaat < kleinsteSchoenmaat)
+                {
+                    kleinsteSchoenmaat = klant.Schoenmaat;
+                }
             }
-            set
-            {
-
-            }
+            if (kleinsteSchoenmaat == 100)
+                kleinsteSchoenmaat = 0; //puur om er mooi uit te zien als we geen klanten hebben
+            return kleinsteSchoenmaat;
         }
+
+        public int GemiddeldeSchoenmaat(List<Klant> klanten)
+        {
+            int gemiddeldeSchoenmaat = 0;
+            if (klanten.Count != 0) 
+            { 
+                foreach(Klant klant in klanten)
+                {
+                    gemiddeldeSchoenmaat += klant.Schoenmaat;
+                }
+                gemiddeldeSchoenmaat = gemiddeldeSchoenmaat / klanten.Count;
+            }
+            return gemiddeldeSchoenmaat;
+        }
+
+        public int AantalVerkochteSchoenen(List<Aankoop> aankopen)
+        {
+            return aankopen.Count();
+        }
+
+        public decimal TotaalPrijsVerkochteSchoenen(List<Aankoop> aankopen)
+        {
+            decimal totaalPrijs = 0;
+            foreach(Aankoop aankoop in aankopen)
+            {
+                totaalPrijs += aankoop.Prijs;
+            }
+            return totaalPrijs;
+        }
+
+
     }
 }

@@ -107,8 +107,11 @@ namespace Schoenwinkel.lib
                 return tempSchoenmaat;
             }
             else
-            { 
-                throw new Exception("De ingegeven schoenmaat moet numeriek zijn!");
+            {
+                if (schoenmaat == "")
+                    throw new Exception("Vul een schoenmaat in!");
+                else
+                    throw new Exception("De ingegeven schoenmaat moet numeriek zijn!");
             }
         }
     }

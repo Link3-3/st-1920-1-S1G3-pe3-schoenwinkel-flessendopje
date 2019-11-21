@@ -84,7 +84,10 @@ namespace Schoenwinkel.lib
             }
             else
             {
-                throw new Exception("De ingegeven prijs moet numeriek zijn!");
+                if (prijs == "")
+                    throw new Exception("Geef een prijs in");
+                else
+                    throw new Exception("De ingegeven prijs moet numeriek zijn!");
             }
         }
 
