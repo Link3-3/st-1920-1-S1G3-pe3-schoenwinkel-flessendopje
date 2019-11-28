@@ -38,7 +38,7 @@
                 <GroupBox Header="Wijzig schoenmaat" HorizontalAlignment="Left" Height="127" Margin="49,200,0,0" VerticalAlignment="Top" Width="265">
                     <Grid >
                         <Label Content="Nieuwe maat:" HorizontalAlignment="Left" Margin="0,7,0,0" VerticalAlignment="Top"/>
-                        <TextBox x:Name="txtNieuweSchoenmaat" HorizontalAlignment="Left" Height="23" Margin="94,12,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="151"/>
+                        <TextBox x:Name="txtNieuweSchoenmaat" HorizontalAlignment="Left" Height="23" Margin="94,12,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="151" GotMouseCapture="txtNieuweSchoenmaat_GotMouseCapture"/>
                         <Button x:Name="btnWijzigSchoenmaat" Content="Wijzig schoenmaat" HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Width="235" Height="35" Click="btnWijzigSchoenmaat_Click"/>
                     </Grid>
                 </GroupBox>
