@@ -35,7 +35,7 @@ namespace Schoenwinkel.Wpf
         void KlantenToevoegen() //zet dit gerust uit om te testen
         {
             //testen met vooringevulde correcte waarden zodat we niet duizend keer een nieuwe klant moeten invoegen.
-            Klant klant1 = new Klant("Tim", "De Gieter", Geslachten.Man, "45");
+            Klant klant1 = new Klant("Flessen", "Dopje", Geslachten.Man, "45");
             klanten.Add(klant1);
             Klant klant2 = new Klant("Pieter", "Peters", Geslachten.Man, "22");
             klanten.Add(klant2);
@@ -240,7 +240,7 @@ namespace Schoenwinkel.Wpf
                 {
                     if (aankoop.GuID == klant.GuID) //dit is de klant die dit item kocht
                     {
-                        verkoopGeschiedenis.Insert(0,($"{klant.Achternaam} {klant.Voornaam} - {aankoop.Merk} - {aankoop.Kleur} - € {aankoop.Prijs}"));
+                        verkoopGeschiedenis.Insert(0,($"{klant.Voornaam} {klant.Achternaam} - {aankoop.Merk} - {aankoop.Kleur} - € {aankoop.Prijs}"));
                     }
                 }
                 UpdateCostumerStatistics();
@@ -252,6 +252,7 @@ namespace Schoenwinkel.Wpf
         {
             //bij het verwijderen van deze klant zullen ook de aangekochte schoenen verwijderd worden
             //verwijdert de klant uit lijst klanten en verwijdert zijn/haar aankopen uit lijst aankopen
+            //verwijdert NIET de aankopen uit de store-statistics ( ivm belastingen moet je alle aankopen bijhouden)
             int index = lstKlantenlijst.SelectedIndex;
             if (index == -1)
             {
@@ -292,7 +293,6 @@ namespace Schoenwinkel.Wpf
             ClearCostumerStatistics();
             UpdateStoreStatistics();
         }
-        //all this just to highlight a textbox :(
         private void txtNieuweSchoenmaat_GotMouseCapture(object sender, MouseEventArgs e)
         {
             txtNieuweSchoenmaat.SelectAll();
